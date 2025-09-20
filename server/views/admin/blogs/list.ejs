@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Blog List</title>
+  <!-- Include your stylesheets -->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+<body id="page-top">
+  <div id="wrapper">
+    <%- include('../../layouts/sidebar', { activePage: 'blogs' }) %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include('../../layouts/navbar', { admin: admin, success: success, error: error }) %>
+
+        <div class="container-fluid">
+          <h1 class="h3 mb-4 text-gray-800">Blogs</h1>
+          <a href="/admin/blogs/add" class="btn btn-primary mb-3">Add New Blog</a>
+
+          <% if (success) { %>
+            <div class="alert alert-success alert-dismissible"><%= success %></div>
+          <% } %>
+
+          <% if (error) { %>
+            <div class="alert alert-danger alert-dismissible"><%= error %></div>
+          <% } %>
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Banner</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Created At</th>
+                <th>Likes</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% blogs.forEach(blog => { %>
+                <tr>
+                    <td>
+          <% if(blog.banner) { %>
+            <img src="<%= blog.banner %>" alt="Banner Image" style="width: 100px; height: auto; object-fit: cover;" />
+          <% } else { %>
+            <span>No Image</span>
+          <% } %>
+        </td>
+                  <td><%= blog.title %></td>
+                  <td><%= blog.author?.name || 'N/A' %></td>
+                  <td><%= new Date(blog.createdAt).toLocaleDateString() %></td>
+                  <td><%= blog.likesCount || 0 %></td>
+                  <td>
+                    <a href="/admin/blogs/edit/<%= blog._id %>" class="btn btn-sm btn-secondary">Edit</a>
+                    <a href="/blogs/<%= blog._id %>/comments" class="btn btn-sm btn-secondary">comments</a>
+                    <form action="/admin/blogs/delete/<%= blog._id %>" method="POST" style="display:inline-block;">
+                      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this blog?')">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+
+              <% if (blogs.length === 0) { %>
+                <tr>
+                  <td colspan="5" class="text-center">No blogs found.</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+
+        <%- include('../../layouts/footer') %>
+      </div>
+    </div>
+  </div>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Event Details - Admin</title>
+  <!-- Stylesheets -->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700,900" rel="stylesheet" />
+  <link href="/css/sb-admin.css" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <%- include('../layouts/sidebar', { activePage: activePage || 'events' }) %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <div id="content">
+
+        <!-- Navbar -->
+        <%- include('../layouts/navbar', { admin: admin, success, error }) %>
+
+        <div class="container-fluid">
+
+          <h1 class="h3 mb-4 text-gray-800">Event Details</h1>
+
+          <% if (success) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <%= success %>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <% } %>
+
+          <% if (error) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <%= error %>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <% } %>
+
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary"><%= event.title %></h6>
+            </div>
+            <div class="card-body">
+
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <% if (event.banner) { %>
+                    <img src="/uploads/<%= event.banner %>" alt="Banner" class="img-fluid rounded" />
+                  <% } else { %>
+                    <p>No banner image available</p>
+                  <% } %>
+                </div>
+                <div class="col-md-8">
+
+                  <p><strong>Date:</strong> <%= new Date(event.date).toLocaleDateString('en-IN', { dateStyle: 'long' }) %></p>
+                  <p><strong>Time:</strong> <%= event.time || 'N/A' %></p>
+                  <p><strong>Location:</strong> <%= event.location || 'N/A' %></p>
+                  <p><strong>Category:</strong> <%= event.category?.name || 'N/A' %></p>
+                  <p><strong>Subcategory:</strong> <%= event.subcategory || 'N/A' %></p>
+                  <p><strong>Organizer:</strong> <%= event.createdBy?.name || 'Unknown' %></p>
+                  <p><strong>Organizer Email:</strong> <%= event.createdBy?.email || 'Unknown' %></p>
+                  <p><strong>Approval Status:</strong> <span style="text-transform: capitalize;"><%= event.approvalStatus %></span></p>
+                  <p><strong>Status:</strong> <%= event.status %></p>
+
+                  <p><strong>Description:</strong></p>
+                  <p><%= event.description || 'No description provided.' %></p>
+
+                </div>
+              </div>
+
+              <h5>Ticket Tiers</h5>
+              <% if (tiers && tiers.length) { %>
+                <ul class="list-group">
+                  <% tiers.forEach(tier => { %>
+                    <li class="list-group-item">
+                      <strong><%= tier.name %></strong> - ₹<%= tier.price %> (Qty: <%= tier.quantityAvailable %>)
+                      <% if (tier.benefits && tier.benefits.length) { %>
+                        <br><small>Benefits: <%= tier.benefits.join(', ') %></small>
+                      <% } %>
+                    </li>
+                  <% }) %>
+                </ul>
+              <% } else { %>
+                <p>No ticket tiers available.</p>
+              <% } %>
+
+              <a href="/admin/events" class="btn btn-secondary mt-4">Back to Events List</a>
+
+            </div>
+          </div>
+
+        </div>
+
+        <%- include('../layouts/footer') %>
+
+      </div>
+    </div>
+
+  </div>
+
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Scripts -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script src="/js/sb-admin.js"></script>
+</body>
+
+</html>

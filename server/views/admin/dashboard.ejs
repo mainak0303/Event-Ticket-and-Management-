@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Admin Dashboard" />
+    <meta name="author" content="" />
+    <title>Admin Dashboard</title>
+
+    <!-- Font Awesome -->
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700,900" rel="stylesheet" />
+    <!-- SB Admin 2 CSS -->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <%- include('../layouts/sidebar', { activePage: 'dashboard' }) %>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+                    <!-- Navbar -->
+                    <%- include('../layouts/navbar', { admin: admin, success: success, error: error }) %>
+                        <!-- End of Navbar -->
+
+                        <!-- Begin Page Content -->
+                        <div class="container-fluid">
+                            <!-- Page Heading -->
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                            </div>
+
+                            <!-- Flash Messages -->
+                            <% if (success) { %>
+                                <div class="alert alert-success alert-dismissible">
+                                    <%= success %>
+                                </div>
+                                <% } %>
+                                    <% if (error) { %>
+                                        <div class="alert alert-danger alert-dismissible">
+                                            <%= error %>
+                                        </div>
+                                        <% } %>
+
+                                            <!-- Quick Stats Row -->
+                                            <div class="row">
+                                                <!-- Total Users Card -->
+                                                <div class="col-xl-3 col-md-6 mb-4">
+                                                    <div class="card border-left-primary shadow h-100 py-2">
+                                                        <div class="card-body">
+                                                            <div class="row no-gutters align-items-center">
+                                                                <div class="col mr-2">
+                                                                    <div
+                                                                        class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                        Total Users</div>
+                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                        <%= users?.length || 0 %>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Total Events Card -->
+                                                <div class="col-xl-3 col-md-6 mb-4">
+                                                    <div class="card border-left-success shadow h-100 py-2">
+                                                        <div class="card-body">
+                                                            <div class="row no-gutters align-items-center">
+                                                                <div class="col mr-2">
+                                                                    <div
+                                                                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                                        Total Events</div>
+                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                        <%= events?.length || 0 %>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <i
+                                                                        class="fas fa-calendar-alt fa-2x text-gray-300"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Total Registrations Card -->
+                                                <div class="col-xl-3 col-md-6 mb-4">
+                                                    <div class="card border-left-info shadow h-100 py-2">
+                                                        <div class="card-body">
+                                                            <div class="row no-gutters align-items-center">
+                                                                <div class="col mr-2">
+                                                                    <div
+                                                                        class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                                        Registrations</div>
+                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                        <%= registrations?.length || 0 %>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <i
+                                                                        class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Logout Shortcut -->
+                                                <div class="col-xl-3 col-md-6 mb-4">
+                                                    <div class="card border-left-warning shadow h-100 py-2">
+                                                        <div
+                                                            class="card-body d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <div
+                                                                    class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                                    Quick Action</div>
+                                                                <form id="logoutForm" action="/admin/auth/logout"
+                                                                    method="POST" style="display:none;"></form>
+                                                                <a href="#"
+                                                                    onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
+                                                                    class="btn btn-sm btn-warning">Logout</a>
+                                                            </div>
+                                                            <i class="fas fa-sign-out-alt fa-2x text-gray-300"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Charts Row -->
+                                            <div class="row">
+                                                <!-- Area Chart -->
+                                                <div class="col-xl-8 col-lg-7">
+                                                    <div class="card shadow mb-4">
+                                                        <div class="card-header py-3">
+                                                            <h6 class="m-0 font-weight-bold text-primary">Activity
+                                                                Overview</h6>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="chart-area">
+                                                                <canvas id="myAreaChart"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Pie Chart -->
+                                                <div class="col-xl-4 col-lg-5">
+                                                    <div class="card shadow mb-4">
+                                                        <div class="card-header py-3">
+                                                            <h6 class="m-0 font-weight-bold text-primary">User
+                                                                Distribution</h6>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="chart-pie pt-4 pb-2">
+                                                                <canvas id="myPieChart"></canvas>
+                                                            </div>
+                                                            <div class="mt-4 text-center small">
+                                                                <span class="mr-2"><i
+                                                                        class="fas fa-circle text-primary"></i>
+                                                                    Users</span>
+                                                                <span class="mr-2"><i
+                                                                        class="fas fa-circle text-success"></i>
+                                                                    Events</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Include Footer -->
+                                            <%- include('../layouts/footer') %>
+                        </div>
+                        <!-- End Page Content -->
+
+                </div>
+                <!-- End Main Content -->
+
+            </div>
+            <!-- End Content Wrapper -->
+
+    </div>
+    <!-- End Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin-2.min.js"></script>
+
+    <!-- Charts scripts -->
+    <script src="/vendor/chart.js/Chart.min.js"></script>
+    <script src="/js/demo/chart-area-demo.js"></script>
+    <script src="/js/demo/chart-pie-demo.js"></script>
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                $(".alert-dismissible").fadeOut("slow");
+            }, 2500); // 2.5 seconds
+        });
+    </script>
+</body>
+
+</html>

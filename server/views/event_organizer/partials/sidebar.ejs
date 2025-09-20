@@ -1,0 +1,104 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+  <!-- Sidebar - Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/organizer/dashboard">
+    <div class="sidebar-brand-icon rotate-n-15">
+      <i class="fas fa-ticket-alt"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">Event Organizer</div>
+  </a>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <!-- Dashboard -->
+  <li class="nav-item <%= (activePage === 'dashboard') ? 'active' : '' %>">
+    <a class="nav-link" href="/organizer/dashboard">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span>
+    </a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Users -->
+  <li class="nav-item <%= (activePage === 'users') ? 'active' : '' %>">
+    <a class="nav-link" href="/organizer/allusers">
+      <i class="fas fa-fw fa-user"></i>
+      <span>Users</span>
+    </a>
+  </li>
+
+  <!-- Events -->
+  <li
+    class="nav-item <%= (activePage === 'events' || activePage === 'eventAdd' || activePage === 'eventEdit') ? 'active' : '' %>">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEvents" aria-expanded="false"
+      aria-controls="collapseEvents">
+      <i class="fas fa-fw fa-calendar-alt"></i>
+      <span>Events</span>
+    </a>
+    <div id="collapseEvents"
+      class="collapse <%= (activePage === 'events' || activePage === 'eventAdd' || activePage === 'eventEdit') ? 'show' : '' %>"
+      aria-labelledby="headingEvents" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item <%= (activePage === 'events') ? 'active' : '' %>" href="/organizer/events">List
+          Events</a>
+        <a class="collapse-item <%= (activePage === 'eventAdd') ? 'active' : '' %>" href="/organizer/events/new">Add
+          Event</a>
+        <% if (activePage==='eventEdit' && typeof editEventId !=='undefined' ) { %>
+          <a class="collapse-item active" href="/organizer/events/edit/<%= editEventId %>">Edit Event</a>
+          <% } %>
+
+      </div>
+    </div>
+  </li>
+
+  <!-- Scan -->
+<li class="nav-item <%= (activePage === 'scan') ? 'active' : '' %>">
+  <a class="nav-link" href="/organizer/scan">
+    <i class="fas fa-fw fa-qrcode"></i>
+    <span>Scan Tickets</span>
+  </a>
+</li>
+
+<!-- Analytics -->
+<li class="nav-item <%= (activePage === 'analytics') ? 'active' : '' %>">
+  <a class="nav-link" href="/organizer/analytics">
+    <i class="fas fa-fw fa-chart-bar"></i>
+    <span>Analytics</span>
+  </a>
+</li>
+
+
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Logout -->
+  <li class="nav-item">
+    <a class="nav-link" href="/organizer/auth/logout" id="sidebarLogoutBtn">
+      <i class="fas fa-fw fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </a>
+  </li>
+
+</ul>
+
+<script>
+  $(document).ready(function () {
+    $('#sidebarLogoutBtn').on('click', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: '/organizer/auth/logout',
+        method: 'POST',
+        success: function () {
+          window.location.href = '/organizer/auth/login';
+        },
+        error: function () {
+          alert('Logout failed. Please try again.');
+        }
+      });
+    });
+  });
+</script>

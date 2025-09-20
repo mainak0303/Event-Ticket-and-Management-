@@ -1,0 +1,117 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+  <!-- Sidebar - Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/dashboard">
+    <div class="sidebar-brand-icon rotate-n-15">
+      <i class="fas fa-ticket-alt"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">Event Admin</div>
+  </a>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <!-- Dashboard -->
+  <li class="nav-item <%= (activePage === 'dashboard') ? 'active' : '' %>">
+    <a class="nav-link" href="/admin/dashboard">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span>
+    </a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Users -->
+  <li class="nav-item <%= (activePage === 'users') ? 'active' : '' %>">
+    <a class="nav-link" href="/admin/allusers">
+      <i class="fas fa-fw fa-user"></i>
+      <span>Users</span>
+    </a>
+  </li>
+
+  <li class="nav-item <%= (activePage === 'event_organizer') ? 'active' : '' %>">
+    <a class="nav-link" href="/admin/organizers">
+      <i class="fas fa-fw fa-user"></i>
+      <span>Event Organizers</span>
+    </a>
+  </li>
+
+  <!-- Blogs -->
+  <li class="nav-item <%= (activePage === 'blogs' || activePage === 'blogAdd' || activePage === 'blogEdit') ? 'active' : '' %>">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBlogs" aria-expanded="false" aria-controls="collapseBlogs">
+      <i class="fas fa-fw fa-newspaper"></i>
+      <span>Blogs</span>
+    </a>
+    <div id="collapseBlogs" class="collapse <%= (activePage === 'blogs' || activePage === 'blogAdd' || activePage === 'blogEdit') ? 'show' : '' %>" aria-labelledby="headingBlogs" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item <%= (activePage === 'blogs') ? 'active' : '' %>" href="/admin/blogs">List Blogs</a>
+        <a class="collapse-item <%= (activePage === 'blogAdd') ? 'active' : '' %>" href="/admin/blogs/add">Add Blog</a>
+        <% if(activePage === 'blogEdit' && typeof editBlogId !== 'undefined') { %>
+          <a class="collapse-item active" href="/admin/blogs/edit/<%= editBlogId %>">Edit Blog</a>
+        <% } %>
+      </div>
+    </div>
+  </li>
+
+  <li class="nav-item <%= (activePage === 'categories' || activePage === 'categoryAdd' || activePage === 'categoryEdit') ? 'active' : '' %>">
+  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategories" aria-expanded="false" aria-controls="collapseCategories">
+    <i class="fas fa-tags"></i>
+    <span>Categories</span>
+  </a>
+  <div id="collapseCategories" class="collapse <%= (activePage === 'categories' || activePage === 'categoryAdd' || activePage === 'categoryEdit') ? 'show' : '' %>" aria-labelledby="headingCategories" data-parent="#accordionSidebar">
+    <div class="bg-white py-2 collapse-inner rounded">
+      <a class="collapse-item <%= (activePage === 'categories') ? 'active' : '' %>" href="/admin/categories">List Categories</a>
+      <a class="collapse-item <%= (activePage === 'categoryAdd') ? 'active' : '' %>" href="/admin/categories/add">Add Category</a>
+      <% if(activePage === 'categoryEdit' && typeof editCategoryId !== 'undefined') { %>
+        <a class="collapse-item active" href="/admin/categories/edit/<%= editCategoryId %>">Edit Category</a>
+      <% } %>
+    </div>
+  </div>
+</li>
+
+
+  <!-- Events -->
+  <li class="nav-item <%= (activePage === 'events' || activePage === 'eventAdd' || activePage === 'eventEdit') ? 'active' : '' %>">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEvents" aria-expanded="false" aria-controls="collapseEvents">
+      <i class="fas fa-fw fa-calendar-alt"></i>
+      <span>Events</span>
+    </a>
+    <div id="collapseEvents" class="collapse <%= (activePage === 'events' || activePage === 'eventAdd' || activePage === 'eventEdit') ? 'show' : '' %>" aria-labelledby="headingEvents" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item <%= (activePage === 'events') ? 'active' : '' %>" href="/admin/events">List Events</a>
+      </div>
+    </div>
+  </li>
+
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Logout -->
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/auth/logout" id="sidebarLogoutBtn">
+      <i class="fas fa-fw fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </a>
+  </li>
+
+</ul>
+
+<script>
+  $(document).ready(function() {
+    $('#sidebarLogoutBtn').on('click', function(event) {
+      event.preventDefault();
+      $.ajax({
+        url: '/admin/auth/logout',
+        method: 'POST',
+        success: function() {
+          window.location.href = '/admin/auth/login';
+        },
+        error: function() {
+          alert('Logout failed. Please try again.');
+        }
+      });
+    });
+  });
+</script>

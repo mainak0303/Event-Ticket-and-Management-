@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Blog Comments</title>
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <link href="/css/sb-admin-2.min.css" rel="stylesheet" />
+</head>
+<body id="page-top">
+  <div id="wrapper">
+    <%- include('../../layouts/sidebar', { activePage: 'blogComments' }) %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include('../../layouts/navbar', { admin: admin, success: success, error: error }) %>
+
+        <div class="container-fluid">
+          <h1 class="h3 mb-4 text-gray-800">Comments for Blog</h1>
+          <a href="/admin/blogs" class="btn btn-secondary mb-3">Back to Blogs</a>
+
+          <% if (success) { %>
+            <div class="alert alert-success alert-dismissible"><%= success %></div>
+          <% } %>
+          <% if (error) { %>
+            <div class="alert alert-danger alert-dismissible"><%= error %></div>
+          <% } %>
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Comment</th>
+                <th>Replies</th>
+                <th>Created At</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% comments.forEach(comment => { %>
+                <tr>
+                  <td>
+                    <%= comment.userId.name %>
+                    <br>
+                    <small>(<%= comment.userId.email || 'N/A' %>)</small>
+                  </td>
+                  <td style="max-width:220px;">
+                    <%= comment.comment %>
+                  </td>
+                  <td style="min-width:200px;">
+                    <% if(comment.replies && comment.replies.length > 0) { %>
+                      <ul style="padding-left: 20px; margin-bottom:8px;">
+                        <% comment.replies.forEach(reply => { %>
+                          <li><strong>Admin:</strong> <%= reply.replyText %> <small class="text-muted">(<%= new Date(reply.createdAt).toLocaleString() %>)</small></li>
+                        <% }) %>
+                      </ul>
+                    <% } else { %>
+                      <em class="text-muted">No replies yet</em>
+                    <% } %>
+                    <form action="/blogs/comments/reply/<%= comment._id %>" method="POST" class="form-inline mt-2">
+                      <div class="input-group">
+                        <input type="text" name="replyText" placeholder="Write a reply..." required class="form-control form-control-sm" style="width:140px;" />
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-sm btn-primary">Reply</button>
+                        </div>
+                      </div>
+                    </form>
+                  </td>
+                  <td>
+                    <%= new Date(comment.createdAt).toLocaleString() %>
+                  </td>
+                  <td>
+                    <form action="/admin/blogs/comments/delete/<%= comment._id %>" method="POST" style="display:inline-block;">
+                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this comment?')">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+              <% if (comments.length === 0) { %>
+                <tr>
+                  <td colspan="5" class="text-center">No comments found for this blog.</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+
+        <%- include('../../layouts/footer') %>
+      </div>
+    </div>
+  </div>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "name": "my-next-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.2",
+    "@mui/material": "^7.3.2",
+    "@tanstack/react-query": "^5.86.0",
+    "axios": "^1.11.0",
+    "framer-motion": "^12.23.12",
+    "js-cookie": "^3.0.5",
+    "next": "^15.5.2",
+    "react": "^19.1.0",
+    "react-cookie": "^8.0.1",
+    "react-dom": "^19.1.0",
+    "react-google-recaptcha": "^3.1.0",
+    "react-hook-form": "^7.62.0",
+    "react-hot-toast": "^2.6.0",
+    "sweetalert2": "^11.23.0",
+    "swiper": "^11.2.10",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}

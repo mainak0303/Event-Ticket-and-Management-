@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scan Ticket - Organizer</title>
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700,900" rel="stylesheet" />
+  <link href="/css/sb-admin.css" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <%- include('partials/sidebar', { activePage: 'scan' }) %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+
+        <!-- Navbar -->
+        <%- include('partials/navbar', { event_organizer: admin, success: success, error: error }) %>
+
+        <div class="container-fluid">
+          <h1 class="h3 mb-4 text-gray-800">Scan Ticket</h1>
+
+          <% if (error && error.length) { %>
+            <div class="alert alert-danger alert-dismissible"><%= error %></div>
+          <% } %>
+          <% if (success && success.length) { %>
+            <div class="alert alert-success alert-dismissible"><%= success %></div>
+          <% } %>
+
+          <form action="/organizer/scan" method="POST" class="mb-4">
+            <div class="form-group">
+              <label for="ticketCode">Ticket Code</label>
+              <input type="text" name="ticketCode" id="ticketCode" class="form-control" placeholder="Enter or scan ticket code" required autofocus />
+            </div>
+            <button type="submit" class="btn btn-primary">Check In</button>
+          </form>
+        </div>
+
+        <!-- Footer -->
+        <%- include('partials/footer') %>
+      </div>
+    </div>
+  </div>
+
+  <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+  <!-- Scripts -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/sb-admin.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      setTimeout(() => {
+        $('.alert').fadeOut('slow');
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

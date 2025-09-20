@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Edit Blog</title>
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <link href="/css/sb-admin-2.min.css" rel="stylesheet" />
+</head>
+<body id="page-top">
+  <div id="wrapper">
+    <%- include('../../layouts/sidebar', { activePage: 'blogEdit', editBlogId: blog._id }) %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include('../../layouts/navbar', { admin: admin, success: success, error: error }) %>
+
+        <div class="container-fluid">
+          <h1 class="h3 mb-4 text-gray-800">Edit Blog</h1>
+
+          <% if (error) { %>
+            <div class="alert alert-danger alert-dismissible"><%= error %></div>
+          <% } %>
+
+          <form action="/admin/blogs/edit/<%= blog._id %>" enctype="multipart/form-data" method="POST">
+            <div class="form-group">
+              <label for="title">Title *</label>
+              <input type="text" name="title" id="title" class="form-control" required value="<%= blog.title %>" />
+            </div>
+
+            <div class="form-group">
+              <label for="content">Content *</label>
+              <textarea name="content" id="content" class="form-control" rows="8" required><%= blog.content %></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="banner">Current Banner</label><br />
+              <% if (blog.banner) { %>
+                <img src="<%= blog.banner %>" alt="Current banner" style="max-width: 300px; height: auto; object-fit: cover;" />
+              <% } else { %>
+                <p>No banner image uploaded</p>
+              <% } %>
+            </div>
+
+            <div class="form-group">
+              <label for="banner">Change Banner Image</label>
+              <input type="file" name="banner" id="banner" accept=".jpg,.jpeg,.png,.webp" class="form-control-file" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Blog</button>
+            <a href="/admin/blogs" class="btn btn-secondary">Cancel</a>
+          </form>
+        </div>
+
+        <%- include('../../layouts/footer') %>
+      </div>
+    </div>
+  </div>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

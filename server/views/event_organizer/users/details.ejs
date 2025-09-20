@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Details - Organizer</title>
+
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700,900" rel="stylesheet" />
+  <link href="/css/sb-admin-2.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="wrapper">
+    <%- include('../partials/sidebar', { activePage: activePage }) %>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include('../partials/navbar', { event_organizer: event_organizer, success: success, error: error }) %>
+
+        <div class="container-fluid">
+          <h1 class="h3 mb-4 text-gray-800">User Details - <%= user.name %></h1>
+
+          <p><strong>Email:</strong> <%= user.email %></p>
+          <p><strong>Registered On:</strong> <%= new Date(user.createdAt).toLocaleString() %></p>
+
+          <h3>Tickets</h3>
+          <% if (user.tickets && user.tickets.length > 0) { %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Ticket Code</th>
+                  <th>Event</th>
+                  <th>Tier</th>
+                  <th>Payment Status</th>
+                  <th>Check-In</th>
+                  <th>Purchased At</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% user.tickets.forEach((ticket, index) => { %>
+                  <tr>
+                    <td><%= ticket.ticketCode %></td>
+                    <td><%= user.events?.[index]?.title || 'N/A' %></td>
+                    <td><%= user.tiers?.[index]?.name || 'N/A' %></td>
+                    <td><%= ticket.paymentStatus %></td>
+                    <td><%= ticket.checkedIn ? 'Checked In' : 'Not Checked In' %></td>
+                    <td><%= new Date(ticket.purchasedAt).toLocaleString() %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } else { %>
+            <p>This user has no tickets.</p>
+          <% } %>
+
+          <a href="/organizer/allusers" class="btn btn-secondary mt-3">Back to Users</a>
+        </div>
+
+        <%- include('../partials/footer') %>
+      </div>
+    </div>
+  </div>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+</body>
+
+</html>
